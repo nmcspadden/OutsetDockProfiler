@@ -4,7 +4,7 @@ This script creates a package to use with [Outset](https://github.com/chilcote/o
 
 Provide a username and a profile, and a script will be placed in the `login-every` (or `login-once` if you specify) directory that will check if the current username is the one you provide, and then attempt to install a user-level profile.
 
-*NOTE: This script does **not** check to see if your profile is User or System.  If you provide a System-level profile, it'll still apply to every user regardless once installed. Check your profile before using it.*
+*NOTE: This script does ***not*** check to see if your profile is User or System.  If you provide a System-level profile, it'll still apply to every user regardless once installed. Check your profile before using it.*
 
 ##Usage
 
