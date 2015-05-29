@@ -23,11 +23,11 @@ if (arguments.once):
 
 workingPath = tempfile.mkdtemp()
 # Copy the profile into the temporary path
-os.makedirs(os.path.join(workingPath, libraryPath))
-shutil.copy(arguments.profile, os.path.join(workingPath, libraryPath))
+os.makedirs(os.path.join(workingPath, 'Outset-Dock-%s' % arguments.name, libraryPath))
+shutil.copy(arguments.profile, os.path.join(workingPath, 'Outset-Dock-%s' % arguments.name, libraryPath))
 
 # Place the script into the outset folder in the temporary path
-os.makedirs(os.path.join(workingPath, outsetPath))
+os.makedirs(os.path.join(workingPath, 'Outset-Dock-%s' % arguments.name, outsetPath))
 # This is the base profile installer script
 script='''#!/bin/sh
 if [[ $USER == "%s" ]]; then
@@ -35,11 +35,11 @@ if [[ $USER == "%s" ]]; then
 fi
 ''' % (arguments.name, os.path.basename(arguments.profile))
 # write script to file in temp directory
-with open(os.path.join(workingPath, outsetPath, 'profile-%s.sh' % arguments.name), 'wb') as outsetScript:
+with open(os.path.join(workingPath, 'Outset-Dock-%s' % arguments.name, outsetPath, 'profile-%s.sh' % arguments.name), 'wb') as outsetScript:
     outsetScript.write(script)
-os.chmod(os.path.join(workingPath, outsetPath, 'profile-%s.sh' % arguments.name), 0755)
+os.chmod(os.path.join(workingPath, 'Outset-Dock-%s' % arguments.name, outsetPath, 'profile-%s.sh' % arguments.name), 0755)
 # Call productbuild to create a package out of the temp folder
-cmd = ['/usr/bin/pkgbuild', '--root', workingPath, '--identifier', arguments.identifier, '--version', str(arguments.version), arguments.output]
+cmd = ['/usr/bin/pkgbuild', '--root', os.path.join(workingPath,'Outset-Dock-%s' % arguments.name), '--identifier', arguments.identifier, '--version', str(arguments.version), arguments.output]
 if arguments.sign:
     cmd += ['--sign', arguments.sign]
 proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
