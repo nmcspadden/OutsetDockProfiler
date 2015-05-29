@@ -8,21 +8,20 @@ import subprocess
 
 p = argparse.ArgumentParser()
 p.add_argument("-p","--profile", help='path to profile to load', required=True)
-p.add_argument("-n","--name", help='name of user to trigger on login', required=True, type=string)
+p.add_argument("-n","--name", help='name of user to trigger on login', required=True)
 p.add_argument("-i","--identifier", help='identifier of package', default='com.organization.profile')
 p.add_argument("-o","--output", help='path to output package', default='Outset-Profile.pkg')
-group = p.add_mutually_exclusive_group(required=True)
-group.add_argument('--once', help='load profile once, not every login',action='store_true')
+p.add_argument('--once', help='load profile once, not every login',action='store_true')
 arguments = p.parse_args()
 
-libraryPath = '/Library/Profiles'
-outsetPath = '/usr/local/outset/login-every'
+libraryPath = 'Library/Profiles'
+outsetPath = 'usr/local/outset/login-every'
 if (arguments.once):
     outsetPath = '/usr/local/outset/login-once'
 
 workingPath = tempfile.mkdtemp()
 # Copy the profile into the temporary path
-os.makedirs(os.path.join(workingPath, libraryPath, os.path.basename(arguments.profile)))
+os.makedirs(os.path.join(workingPath, libraryPath)
 shutil.copy(arguments.profile, os.path.join(workingPath, libraryPath))
 
 # Place the script into the outset folder in the temporary path
