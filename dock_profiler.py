@@ -13,6 +13,7 @@ p.add_argument("-i","--identifier", help='identifier of package, defaults to "co
 p.add_argument("-o","--output", help='path to output package, defaults to "Outset-Profile.pkg"', default='Outset-Profile.pkg')
 p.add_argument('--once', help='load profile once, not every login',action='store_true')
 p.add_argument("-s","--sign", help='sign package with valid identity',metavar='IDENTITY')
+p.add_argument("-v","--version", help='version for package, defaults to 1.0', default='1.0')
 arguments = p.parse_args()
 
 libraryPath = 'Library/Profiles'
@@ -38,7 +39,7 @@ with open(os.path.join(workingPath, outsetPath, 'profile-%s.sh' % arguments.name
     outsetScript.write(script)
 os.chmod(os.path.join(workingPath, outsetPath, 'profile-%s.sh' % arguments.name), 0755)
 # Call productbuild to create a package out of the temp folder
-cmd = ['/usr/bin/productbuild', '--content', workingPath, '--identifier', arguments.identifier, arguments.output]
+cmd = ['/usr/bin/pkgbuild', '--root', workingPath, '--identifier', arguments.identifier, '--version', str(arguments.version), arguments.output]
 if arguments.sign:
     cmd += ['--sign', arguments.sign]
 proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
