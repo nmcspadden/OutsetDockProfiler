@@ -6,12 +6,14 @@ Provide a username and a profile, and a script will be placed in the `login-ever
 
 *NOTE: This script does not check to see if your profile is User or System.  If you provide a System-level profile, it'll still apply to every user regardless once installed. Check your profile before using it.*
 
+Although any user-level profile will do, my primary usage for this is Dock profiles.
+
 ##Usage
 
 ```
 $ ./dock_profiler.py -h
 usage: dock_profiler.py [-h] -p PROFILE -n NAME [-i IDENTIFIER] [-o OUTPUT]
-                        [--once] [-s IDENTITY]
+                        [--once] [-s IDENTITY] [-v VERSION]
 
 Creates a package for Outset that will install a profile for a specific user
 on login.
@@ -30,6 +32,8 @@ optional arguments:
   --once                load profile once, not every login
   -s IDENTITY, --sign IDENTITY
                         sign package with valid identity
+  -v VERSION, --version VERSION
+                        version for package, defaults to 1.0
 ```
 
 The required arguments are `--profile` (path to a profile) and `--name` (the name of the user to trigger the profile installation).
@@ -42,10 +46,12 @@ The required arguments are `--profile` (path to a profile) and `--name` (the nam
 
 `--sign IDENTITY` will sign the resulting package with a valid identity.  Use `/usr/bin/security find-identity -p basic` to list possible identities you can use to sign the package with.
 
+`--version` specifies a version number for the package. This defaults to "1.0".
+
 ## Example
 
 ```
-./dock_profiler.py -p DockStudent.mobileconfig -n student -i org.sacredsf.profile.dock.student -o Outset-Dock-Student.pkg --sign "Developer ID Installer"
+./dock_profiler.py -p DockStudent.mobileconfig -n student -i org.sacredsf.profile.dock.student -o Outset-Dock-Student.pkg --sign "Developer ID Installer" --version 2.0
 
 productbuild: Using timestamp authority for signature
 productbuild: Signing product with identity "Developer ID Installer" from keychain /Users/nmcspadden/Library/Keychains/login.keychain
@@ -54,4 +60,4 @@ productbuild: Adding certificate "Apple Root CA"
 productbuild: Wrote product to Outset-Dock-Student.pkg
 ```
 
-This will create the "Outset-Dock-Student.pkg" file that will install a profile into `/Library/Profiles/DockStudent.mobileconfig`, and a script into `/usr/local/outset/login-every/profile-student.sh`. 
+This will create a "Outset-Dock-Student.pkg" package with receipt "org.sacredsf.profile.student" and version 2.0 that will install a profile into `/Library/Profiles/DockStudent.mobileconfig`, and a script into `/usr/local/outset/login-every/profile-student.sh`. When the "student" user logs in, this profile will be installed.
